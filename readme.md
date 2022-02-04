@@ -29,14 +29,12 @@ so do not skip it!
 
 Let's start your server, for this we will use the
 command `npm run server`.
-
 This command uses the **nodemon** package that we
 obtained in the previous step.
 
 But if suddenly something went wrong, and your
 server did not start, do not worry, use the
 default command: `node app.js` .
-
 This command is deprived of the advantages that
 **nodemon** gives us, but with almost 100%
 probability it will start your server.
