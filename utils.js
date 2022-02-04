@@ -55,10 +55,6 @@ const errorsHandler = (errors) => {
 };
 
 module.exports = {
-  errorsHandler,
-};
-
-module.exports = {
   openAndRemake,
   remakeAndSave,
   filterAndSorter,
