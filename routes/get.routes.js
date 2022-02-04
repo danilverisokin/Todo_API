@@ -13,7 +13,7 @@ router.get(
   query("order")
     .isIn(["asc", "desc"])
     .withMessage('query "order" must be in array: ["asc", "desc"]'),
-  query("p")
+  query("page")
     .isInt({ min: 1 })
     .withMessage('query "page" must be greater then 0'),
   async (req, res) => {
