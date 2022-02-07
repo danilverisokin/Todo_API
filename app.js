@@ -16,7 +16,6 @@ const { PORT, mainUri } = require("./config");
 //   } catch (error) {
 //     console.error("Unable to connect to the database:", error);
 //   }
-
 // };
 
 // func();
