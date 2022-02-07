@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
+const db = require("../models/index");
 
 const { openAndRemake, remakeAndSave, errorsHandler } = require("../utils");
 const { body, validationResult } = require("express-validator");
@@ -23,17 +24,17 @@ router.post(
 
       const newTask = {
         uuid: uuidv4(),
+        done: false,
         ...body,
-        createdAt: new Date(),
       };
 
-      let tasks = openAndRemake();
-      tasks.unshift(newTask);
-      remakeAndSave(tasks);
+      await db.Task.create({
+        ...newTask,
+      });
 
-      const count = tasks.length;
+      // const count = tasks.length;
 
-      res.send({ count, tasks });
+      res.send({ message: "ok" });
     } catch (e) {
       res.status(400).json("Error: " + e);
     }

@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { data } = require("./config");
 const db = require("./models/index");
 
 const openAndRemake = () => {
@@ -18,10 +17,10 @@ const filterAndSorter = async (filterBy, order) => {
 
   const filteredTasks = tasks.filter((item) => {
     if (filterBy === "done" && filterBy) {
-      return item.done === "true";
+      return item.done === true;
     }
     if (filterBy === "undone" && filterBy) {
-      return item.done === "false";
+      return item.done === false;
     }
     if (filterBy === "all" && filterBy) {
       return item;
@@ -50,6 +49,8 @@ const filterAndSorter = async (filterBy, order) => {
   const filteredAndSortedTasks = array(filteredTasks);
 
   const count = filteredAndSortedTasks.length;
+
+  console.log(filteredAndSortedTasks);
 
   return { count: count, tasks: filteredAndSortedTasks };
 };

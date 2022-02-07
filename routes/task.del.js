@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { openAndRemake, remakeAndSave, errorsHandler } = require("../utils");
+const { errorsHandler } = require("../utils");
 const { param, validationResult } = require("express-validator");
+const db = require("../models/index");
 
 router.delete(
   "/:id",
@@ -16,11 +17,11 @@ router.delete(
         params: { id },
       } = req;
 
-      let tasks = openAndRemake();
-
-      tasks = tasks.filter((item) => item.uuid !== id);
-
-      remakeAndSave(tasks);
+      await db.Task.destroy({
+        where: {
+          uuid: id,
+        },
+      });
 
       res.send({ message: "ок" });
     } catch (e) {

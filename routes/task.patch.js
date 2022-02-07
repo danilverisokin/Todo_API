@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { openAndRemake, remakeAndSave, errorsHandler } = require("../utils");
+const { errorsHandler } = require("../utils");
 const { body, validationResult } = require("express-validator");
+const db = require("../models/index");
 
 router.patch(
   "/:id",
@@ -21,22 +22,16 @@ router.patch(
         body,
       } = req;
 
-      let tasks = openAndRemake();
+      await db.Task.update(
+        { ...body },
+        {
+          where: {
+            uuid: id,
+          },
+        }
+      );
 
-      tasks = tasks.map((item) => {
-        if (item.uuid === id)
-          item = {
-            ...item,
-            ...body,
-          };
-        return item;
-      });
-
-      remakeAndSave(tasks);
-
-      const count = tasks.length;
-
-      res.send({ count: count, tasks: tasks });
+      res.send({ message: "ok" });
     } catch (e) {
       res.status(400).json("Error: " + e);
     }
