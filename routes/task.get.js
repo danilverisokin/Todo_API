@@ -1,7 +1,6 @@
 const router = require("express").Router();
-const { filterAndSorter } = require("../utils");
+const { filterAndSorter, errorsHandler } = require("../utils");
 const { query, validationResult } = require("express-validator");
-const { errorsHandler } = require("../utils");
 
 router.get(
   "/",
@@ -26,7 +25,7 @@ router.get(
         query: { filterBy, order, page },
       } = req;
 
-      const result = filterAndSorter(filterBy, order);
+      const result = await filterAndSorter(filterBy, order);
 
       if (result.count > 5) {
         result.tasks = [...result.tasks].splice((page - 1) * 5, 5);

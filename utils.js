@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { data } = require("./config");
+const db = require("./models/index");
 
 const openAndRemake = () => {
   return JSON.parse(fs.readFileSync(data, "utf8"));
@@ -9,15 +10,18 @@ const remakeAndSave = (elem) => {
   fs.writeFileSync(data, JSON.stringify(elem));
 };
 
-const filterAndSorter = (filterBy, order) => {
-  const tasks = openAndRemake();
+const filterAndSorter = async (filterBy, order) => {
+  const allTasks = await db.Task.findAll();
+  const tasks = allTasks.map((task) => {
+    return task.dataValues;
+  });
 
   const filteredTasks = tasks.filter((item) => {
     if (filterBy === "done" && filterBy) {
-      return item.done === true;
+      return item.done === "true";
     }
     if (filterBy === "undone" && filterBy) {
-      return item.done === false;
+      return item.done === "false";
     }
     if (filterBy === "all" && filterBy) {
       return item;

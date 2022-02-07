@@ -3,10 +3,21 @@ const cors = require("cors");
 const router = require("./routes/router");
 const app = express();
 const { PORT, mainUri } = require("./config");
-const { Task } = require("./model/todo.task");
 
 app.use(cors());
 app.options("*", cors());
+
+// const func = async () => {
+//   await db.Task.create({
+//     name: "Dima",
+//     done: true,
+//     uuid: uuidv4(),
+//   });
+
+//   // console.log(tasks[0].dataValues);
+// };
+
+// func();
 
 app.use(express.json());
 app.use(mainUri, router);
