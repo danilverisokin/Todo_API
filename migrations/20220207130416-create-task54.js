@@ -4,7 +4,10 @@ module.exports = {
     await queryInterface.createTable("Tasks", {
       userId: {
         type: Sequelize.UUID,
-        primaryKey: true,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
       },
       uuid: {
         type: Sequelize.UUID,
