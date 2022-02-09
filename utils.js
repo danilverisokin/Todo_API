@@ -1,14 +1,6 @@
 const fs = require("fs");
 const db = require("./models/index");
 
-const openAndRemake = () => {
-  return JSON.parse(fs.readFileSync(data, "utf8"));
-};
-
-const remakeAndSave = (elem) => {
-  fs.writeFileSync(data, JSON.stringify(elem));
-};
-
 const filterAndSorter = async (filterBy, order) => {
   const allTasks = await db.Task.findAll();
   const tasks = allTasks.map((task) => {
@@ -60,8 +52,6 @@ const errorsHandler = (errors) => {
 };
 
 module.exports = {
-  openAndRemake,
-  remakeAndSave,
   filterAndSorter,
   errorsHandler,
 };

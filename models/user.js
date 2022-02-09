@@ -13,13 +13,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      userId: DataTypes.UUID,
+      userId: { type: DataTypes.UUID, primaryKey: true },
       login: DataTypes.STRING,
       password: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "User",
+
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return User;

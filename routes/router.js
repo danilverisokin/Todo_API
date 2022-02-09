@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+router.use("/register", require("./authRegister.post"));
+
 router.use("/", require("./task.get"));
 router.use("/", require("./task.patch"));
 router.use("/", require("./task.post"));

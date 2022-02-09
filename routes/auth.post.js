@@ -2,9 +2,6 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const db = require("../models/index");
 
-const { errorsHandler } = require("../utils");
-const { body, validationResult } = require("express-validator");
-
 router.post(
   "/",
   body("done").optional().isBoolean().withMessage('body "done" is not boolean'),
@@ -28,7 +25,7 @@ router.post(
         ...body,
       };
 
-      await db.Task.create({
+      await db.User.create({
         ...newTask,
       });
 
