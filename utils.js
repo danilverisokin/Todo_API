@@ -1,8 +1,11 @@
 const { Task } = require("./models/index");
+const { Op } = require("sequelize");
 
 const filterAndSorter = async (filterBy, order) => {
   let result = await Task.findAndCountAll({
-    where: filterBy === "done" ? { done: "true" } : { done: "false" },
+    where: !filterBy
+      ? { [Op.or]: [{ done: "false" }, { done: "true" }] }
+      : { done: filterBy },
     order: [["createdAt", order]],
   });
 

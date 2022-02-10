@@ -22,6 +22,13 @@ router.post(
 
       const { body } = req;
 
+      const taskExists = await Task.findOne({
+        where: { name: req.body.name },
+      });
+      if (taskExists) {
+        return res.status(400).send({ message: "task with same name exists" });
+      }
+
       const newTask = {
         uuid: uuidv4(),
         done: false,

@@ -6,10 +6,8 @@ router.get(
   "/",
 
   query("filterBy")
-    .isIn(["", "done", "undone", "all"])
-    .withMessage(
-      'query "filterBy" must be in array: ["all", "done", "undone"]'
-    ),
+    .isIn(["", "true", "false"])
+    .withMessage('query "filterBy" must be in array: ["", "true", "false"]'),
   query("order")
     .isIn(["asc", "desc"])
     .withMessage('query "order" must be in array: ["asc", "desc"]'),
