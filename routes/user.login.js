@@ -1,18 +1,23 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
-const db = require("../models/index");
+const { body, validationResult } = require("express-validator");
+const { User } = require("../models/index");
 
 router.post(
-  "/",
-  body("done").optional().isBoolean().withMessage('body "done" is not boolean'),
-  body("name")
+  "/login",
+
+  body("login")
     .optional()
     .isLength({ min: 1 })
-    .withMessage('body "name" is too short'),
+    .withMessage('body "password" is too short'),
+  body("password")
+    .optional()
+    .isLength({ min: 1 })
+    .withMessage('body "password" is too short'),
+
   async (req, res) => {
     try {
       const errors = validationResult(req);
-
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: errorsHandler(errors) });
       }
@@ -20,16 +25,12 @@ router.post(
       const { body } = req;
 
       const newTask = {
-        uuid: uuidv4(),
-        done: false,
+        userId: uuidv4(),
         ...body,
       };
-
-      await db.User.create({
+      await User.create({
         ...newTask,
       });
-
-      // const count = tasks.length;
 
       res.send({ message: "ok" });
     } catch (e) {

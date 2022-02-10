@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const { errorsHandler, filterAndSorter } = require("../utils");
 const { query, validationResult } = require("express-validator");
-const { Task } = require("../models/index");
 
 router.get(
   "/",
+
   query("filterBy")
     .isIn(["", "done", "undone", "all"])
     .withMessage(
@@ -16,12 +16,14 @@ router.get(
   query("page")
     .isInt({ min: 1 })
     .withMessage('query "page" must be greater then 0'),
+
   async (req, res) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: errorsHandler(errors) });
       }
+
       const { filterBy, order, page } = req.query;
 
       const result = await filterAndSorter(filterBy, order);

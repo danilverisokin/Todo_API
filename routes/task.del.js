@@ -5,7 +5,9 @@ const { Task } = require("../models/index");
 
 router.delete(
   "/:id",
+
   param("id").notEmpty().withMessage('param "id" is empty'),
+
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -20,12 +22,10 @@ router.delete(
           uuid: id,
         },
       });
-
       res.send({ message: "ок" });
     } catch (e) {
       res.status(400).json("Error: " + e);
     }
   }
 );
-
 module.exports = router;

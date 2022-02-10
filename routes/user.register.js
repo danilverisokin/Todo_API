@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
-const db = require("../models/index");
-
 const { errorsHandler } = require("../utils");
 const { body, validationResult } = require("express-validator");
+const { User } = require("../models/index");
 
 router.post(
   "/register",
+
   body("login")
     .optional()
     .isLength({ min: 1 })
@@ -15,10 +15,10 @@ router.post(
     .optional()
     .isLength({ min: 1 })
     .withMessage('body "password" is too short'),
+
   async (req, res) => {
     try {
       const errors = validationResult(req);
-
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: errorsHandler(errors) });
       }
@@ -29,8 +29,7 @@ router.post(
         userId: uuidv4(),
         ...body,
       };
-
-      await db.User.create({
+      await User.create({
         ...newUser,
       });
 
