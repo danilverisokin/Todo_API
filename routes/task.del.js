@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { errorsHandler } = require("../utils");
 const { param, validationResult } = require("express-validator");
-const db = require("../models/index");
+const { Task } = require("../models/index");
 
 router.delete(
   "/:id",
@@ -13,11 +13,9 @@ router.delete(
         return res.status(400).json({ message: errorsHandler(errors) });
       }
 
-      const {
-        params: { id },
-      } = req;
+      const { id } = req.params;
 
-      await db.Task.destroy({
+      await Task.destroy({
         where: {
           uuid: id,
         },

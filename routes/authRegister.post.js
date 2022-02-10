@@ -6,7 +6,7 @@ const { errorsHandler } = require("../utils");
 const { body, validationResult } = require("express-validator");
 
 router.post(
-  "/",
+  "/register",
   body("login")
     .optional()
     .isLength({ min: 1 })

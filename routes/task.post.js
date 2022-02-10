@@ -20,6 +20,8 @@ router.post(
         return res.status(400).json({ message: errorsHandler(errors) });
       }
 
+      console.log(req);
+
       const { body } = req;
 
       const newTask = {

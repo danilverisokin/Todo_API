@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { filterAndSorter, errorsHandler } = require("../utils");
+const { errorsHandler, filterAndSorter } = require("../utils");
 const { query, validationResult } = require("express-validator");
+const { Task } = require("../models/index");
 
 router.get(
   "/",
@@ -21,14 +22,13 @@ router.get(
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: errorsHandler(errors) });
       }
-      const {
-        query: { filterBy, order, page },
-      } = req;
+      const { filterBy, order, page } = req.query;
 
       const result = await filterAndSorter(filterBy, order);
+      console.log(result);
 
       if (result.count > 5) {
-        result.tasks = [...result.tasks].splice((page - 1) * 5, 5);
+        result.rows = [...result.rows].splice((page - 1) * 5, 5);
       }
 
       res.send(result);
