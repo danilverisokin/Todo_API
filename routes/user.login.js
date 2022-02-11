@@ -29,21 +29,18 @@ router.post(
       const nameExists = await User.findOne({
         where: { login: req.body.login },
       });
-      console.log("Login >>>", nameExists);
       if (!nameExists) {
         return res.status(400).send({ message: "No such user exists" });
       }
 
-      //Хеширование пароля для проверки
-      const hashPassword = await bcrypt.hash(body.password, 7);
-
-      const newTask = {
-        userId: uuidv4(),
-        ...body,
-      };
-      await User.create({
-        ...newTask,
-      });
+      //Проверка пароля
+      const checkPassword = bcrypt.compareSync(
+        body.password,
+        nameExists.password
+      );
+      if (!checkPassword) {
+        return res.status(400).send({ message: "Password mismatch" });
+      }
 
       res.send({ message: "ok" });
     } catch (e) {
