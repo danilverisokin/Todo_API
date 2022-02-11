@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const { body, validationResult } = require("express-validator");
 const { User } = require("../models/index");
+const bcrypt = require("bcryptjs");
 
 router.post(
   "/login",
@@ -23,6 +24,18 @@ router.post(
       }
 
       const { body } = req;
+
+      //Проверка существавания логина в базе
+      const nameExists = await User.findOne({
+        where: { login: req.body.login },
+      });
+      console.log("Login >>>", nameExists);
+      if (!nameExists) {
+        return res.status(400).send({ message: "No such user exists" });
+      }
+
+      //Хеширование пароля для проверки
+      const hashPassword = await bcrypt.hash(body.password, 7);
 
       const newTask = {
         userId: uuidv4(),
