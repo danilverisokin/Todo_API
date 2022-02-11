@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const { body, validationResult } = require("express-validator");
 const { User } = require("../models/index");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 router.post(
   "/login",
@@ -42,7 +43,11 @@ router.post(
         return res.status(400).send({ message: "Password mismatch" });
       }
 
-      res.send({ message: "ok" });
+      const token = jwt.sign({ userId: nameExists.userId }, "Aboba", {
+        expiresIn: "1h",
+      });
+
+      res.send(token);
     } catch (e) {
       res.status(400).json("Error: " + e);
     }
