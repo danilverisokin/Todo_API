@@ -25,7 +25,6 @@ router.get(
       const { filterBy, order, page } = req.query;
 
       const result = await filterAndSorter(filterBy, order);
-      console.log(result);
 
       if (result.count > 5) {
         result.rows = [...result.rows].splice((page - 1) * 5, 5);
